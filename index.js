@@ -5,7 +5,11 @@ const morgan = require("morgan");
 // json-parser middleware to access data easily
 // without, body of request is undefined
 app.use(express.json());
-app.use(morgan('tiny'))
+app.use(morgan(':method :url :body'))
+
+morgan.token('body', req => {
+  return JSON.stringify(req.body)
+})
 
 // data
 let persons = [
@@ -83,6 +87,7 @@ app.post("/api/persons", (request, response) => {
     number: body.number,
     id: generateId(),
   };
+  
 
   persons = persons.concat(person);
   response.json(person);
