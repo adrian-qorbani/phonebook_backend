@@ -58,16 +58,20 @@ app.get("/info", (request, response) => {
 
 // generate random ids for entries
 const generateId = () => {
-  return Math.floor(Math.random()*(999-100+1)+100);
+  return Math.floor(Math.random() * (999 - 100 + 1) + 100);
 };
 
 // entry add (POST)
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
-  if (!body.name || !body.number) {
+  if (!body.name) {
     return response.status(400).json({
-      error: "parameter (name or number) missing",
+      error: "name parameter is missing",
+    });
+  } else if (!body.number) {
+    return response.status(400).json({
+      error: "number parameter is missing",
     });
   }
 
