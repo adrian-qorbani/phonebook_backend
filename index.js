@@ -1,5 +1,5 @@
-const express = require('express')
-const app = express()
+const express = require("express");
+const app = express();
 
 // data
 let persons = [
@@ -26,16 +26,23 @@ let persons = [
 ];
 
 // server routes
-app.get('/', (request, response) => {
-  response.send('<h1>Hello Server!</h1>')
-})
+app.get("/", (request, response) => {
+  response.send("<h1>Hello Server!</h1>");
+});
 
-app.get('/api/persons', (request, response) => {
-  response.json(persons)
-})
+app.get("/api/persons", (request, response) => {
+  response.json(persons);
+});
 
-// port and 
-const PORT = 3001
+app.get("/info", (request, response) => {
+  let startTime = new Date();
+  response.send(
+    `<h1>Phonebook has ${persons.length} entries.</h1><br/><h2>${startTime}</h2>`
+  );
+});
+
+// port and
+const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+  console.log(`Server running on port ${PORT}`);
+});
