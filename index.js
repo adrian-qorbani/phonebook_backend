@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 
+// data
 let persons = [
   {
     id: 1,
@@ -24,6 +25,7 @@ let persons = [
   },
 ];
 
+// server routes
 app.get('/', (request, response) => {
   response.send('<h1>Hello Server!</h1>')
 })
@@ -32,6 +34,7 @@ app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
 
+// port and 
 const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
