@@ -1,9 +1,11 @@
 const express = require("express");
 const app = express();
+const morgan = require("morgan");
 
-// json-parser to access data easily
+// json-parser middleware to access data easily
 // without, body of request is undefined
 app.use(express.json());
+app.use(morgan('tiny'))
 
 // data
 let persons = [
@@ -54,6 +56,7 @@ app.get("/info", (request, response) => {
   response.send(
     `<h1>Phonebook has ${persons.length} entries.</h1><br/><h2>${startTime}</h2>`
   );
+  // response.send('hello, world!')
 });
 
 // generate random ids for entries
