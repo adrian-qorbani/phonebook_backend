@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 
+// json-parser to access data easily
+// without, body of request is undefined
+app.use(express.json());
+
 // data
 let persons = [
   {
@@ -52,13 +56,38 @@ app.get("/info", (request, response) => {
   );
 });
 
+// generate random ids for entries
+const generateId = () => {
+  return Math.floor(Math.random()*(999-100+1)+100);
+};
+
+// entry add (POST)
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: "parameter (name or number) missing",
+    });
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  };
+
+  persons = persons.concat(person);
+  response.json(person);
+});
+
 // entry delete request
-app.delete('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  persons = persons.filter(person => person.id !== id)
+app.delete("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  persons = persons.filter((person) => person.id !== id);
   // response with 204 for deletion
-  response.status(204).end()
-})
+  response.status(204).end();
+});
 
 // port and
 const PORT = 3001;
