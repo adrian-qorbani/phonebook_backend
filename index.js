@@ -34,17 +34,16 @@ app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
 
-app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find(person => person.id === id)
+app.get("/api/persons/:id", (request, response) => {
+  const id = Number(request.params.id);
+  const person = persons.find((person) => person.id === id);
 
   if (person) {
-    response.json(person)
+    response.json(person);
   } else {
-    response.status(404).end()
+    response.status(404).end();
   }
-  
-})
+});
 
 app.get("/info", (request, response) => {
   let startTime = new Date();
@@ -52,6 +51,14 @@ app.get("/info", (request, response) => {
     `<h1>Phonebook has ${persons.length} entries.</h1><br/><h2>${startTime}</h2>`
   );
 });
+
+// entry delete request
+app.delete('/api/persons/:id', (request, response) => {
+  const id = Number(request.params.id)
+  persons = persons.filter(person => person.id !== id)
+  // response with 204 for deletion
+  response.status(204).end()
+})
 
 // port and
 const PORT = 3001;
