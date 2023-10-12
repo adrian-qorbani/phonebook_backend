@@ -1,3 +1,5 @@
+// THIS FILE IS REDUNDANT. INDEX.JS IS UPDATED AND THIS FILE ONLY
+// SERVES AS A EDUCATIONAL REFERENCE.
 const mongoose = require("mongoose");
 
 if (process.argv.length < 3) {
