@@ -19,7 +19,7 @@ This project is created via proposed exercises in University of Helsinki's Fulls
 ### Built With
 
 
-![Built With](https://skillicons.dev/icons?i=javascript,react,vite,nodejs,express,netlify,linux&perline=7)
+![Built With](https://skillicons.dev/icons?i=javascript,react,vite,nodejs,express,mongodb,netlify,linux&perline=9)
 
 ### Installation
 
@@ -46,7 +46,8 @@ Incase you want to use different API for contacts change the following line in .
 ## Roadmap
 
 - [x] Develope Frontend (React with CRUD functionality)
-- [x] Create a backend API (Done with CodeSandbox)
+- [x] Create a backend API (Done with both CodeSandbox and Render)
+- [x] Create a MongoDB database and establish connection
 - [ ] Stylize App with modern UI
 - [ ] Multi-language Support
     - [ ] German
@@ -56,7 +57,3 @@ Incase you want to use different API for contacts change the following line in .
 
 Adrian Q. - [Github Profile](https://github.com/adrian-qorbani) - mahdigh@live.com
 
-
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
