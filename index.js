@@ -28,6 +28,31 @@ app.get("/api/persons", (request, response) => {
   });
 });
 
+// creating new person
+app.post('/api/persons', (request, response) => {
+  const body = request.body
+
+  if (body.name === undefined) {
+    return response.status(400).json({ error: 'content missing.' })
+  }
+
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  })
+
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
+})
+
+// finding contact by id
+app.get('/api/persons/:id', (request, response) => {
+  Person(request.params.id).then(person => {
+    response.json(person)
+  })
+})
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
