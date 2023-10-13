@@ -16,7 +16,6 @@ morgan.token("body", (req) => {
   return JSON.stringify(req.body);
 });
 
-
 // server routes
 app.get("/", (request, response) => {
   response.send("<h1>Hello Server!</h1>");
@@ -29,28 +28,43 @@ app.get("/api/persons", (request, response) => {
 });
 
 // creating new person
-app.post('/api/persons', (request, response) => {
-  const body = request.body
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
 
   if (body.name === undefined) {
-    return response.status(400).json({ error: 'content missing.' })
+    return response.status(400).json({ error: "content missing." });
   }
 
   const person = new Person({
     name: body.name,
     number: body.number,
-  })
+  });
 
-  person.save().then(savedPerson => {
-    response.json(savedPerson)
-  })
-})
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
+});
 
 // finding contact by id
-app.get('/api/persons/:id', (request, response) => {
-  Person(request.params.id).then(person => {
-    response.json(person)
-  })
+app.get("/api/persons/:id", (request, response, next) => {
+  Person.findById(request.params.id)
+    .then((person) => {
+      if (person) {
+        response.json(person);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
+});
+
+// deleting by Id
+app.delete('/api/persons/:id', (request, response, next) => {
+  Person.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 const PORT = process.env.PORT;
