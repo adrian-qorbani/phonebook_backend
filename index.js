@@ -22,6 +22,19 @@ morgan.token("body", (req) => {
   return JSON.stringify(req.body);
 });
 
+// error handler
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id." });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
+  }
+
+  next(error);
+};
+
 // server routes
 app.get("/", (request, response) => {
   response.send("<h1>Hello Server!</h1>");
@@ -34,21 +47,24 @@ app.get("/api/persons", (request, response) => {
 });
 
 // creating new person
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = request.body;
 
   if (body.name === "") {
     return response.status(400).json({ error: "name missing." });
-  } 
+  }
 
   const person = new Person({
     name: body.name,
     number: body.number,
   });
 
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
-  });
+  person
+    .save()
+    .then((savedPerson) => {
+      response.json(savedPerson);
+    })
+    .catch((error) => next(error));
 });
 
 // finding contact by id
@@ -74,20 +90,22 @@ app.delete("/api/persons/:id", (request, response, next) => {
 });
 
 // updating
-app.put('/api/persons/:id', (request, response, next) => {
-  const body = request.body
+app.put("/api/persons/:id", (request, response, next) => {
+  const body = request.body;
 
   const person = {
     name: body.name,
     number: body.number,
-  }
+  };
 
   Person.findByIdAndUpdate(request.params.id, person, { new: true })
-    .then(updatedPerson => {
-      response.json(updatedPerson.toJSON())
+    .then((updatedPerson) => {
+      response.json(updatedPerson.toJSON());
     })
-    .catch(error => next(error))
-})
+    .catch((error) => next(error));
+});
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
