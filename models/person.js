@@ -23,6 +23,14 @@ const personSchema = new mongoose.Schema({
   },
   number: {
     type: String,
+    validate: {
+      // phone number follows Iranian 0915-xxx-xxxx format
+      validator: function (v) {
+        return /\d{4}-\d{3}-\d{4}/.test(v);
+      },
+      message: (props) => `${props.value} is not a valid phone number.`,
+    },
+    minlength: 11,
     required: true,
   },
 });
